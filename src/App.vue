@@ -40,10 +40,6 @@
     </v-list>
     </v-navigation-drawer>
 
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
     <v-main class="pt-10">
       <router-view/>
     </v-main>
