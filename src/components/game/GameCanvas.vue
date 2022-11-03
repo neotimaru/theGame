@@ -1,5 +1,7 @@
 <template>
-  <canvas id="gameCanvas"></canvas>
+  <div>
+    <canvas id="gameCanvas"></canvas>
+  </div>
 </template>
 
 <script>
@@ -65,10 +67,15 @@ export default{
           originY: 'center',
           fontSize: 30,
         }
+        // textオブジェクトの作成
         const text = new fabric.Text(card.num,textProperty)
+        // rectオブジェクトの作成
         const rect = new fabric.Rect(rectProperty)
+        // groupオブジェクトの作成
         const groupProperty = {id: CARDTYPE.DEFAULT, selectable: false}
         const group = new fabric.Group([rect, text], groupProperty)
+
+        // 描画
         this.gameCanvas.add(group)
       })
       
@@ -94,12 +101,17 @@ export default{
           fontSize: 30,
         }
         const textNum = (this.getRandomNum(2,99)).toString()
+        // rectオブジェクトの作成
         const rect = new fabric.Rect(rectProperty)
+        // textオブジェクトの作成
         const text = new fabric.Text(textNum, textProperty)
+        // groupオブジェクトの作成
         const groupProperty = {id: CARDTYPE.PLAY}
         const group = new fabric.Group([rect, text], groupProperty)
-        this.gameCanvas.add(group)
 
+        // 描画
+        this.gameCanvas.add(group)
+        // イベントリスナー
         this._setGroupEvent(group)
       }
       // 画像読み込み

@@ -1,5 +1,6 @@
 <template>
-  <v-card>
+<div>
+  <v-card class="pt-20">
     <v-card-title>ザ・ゲーム</v-card-title>
     <!-- ボタンエリア -->
     <v-card-text>
@@ -20,6 +21,7 @@
       <!-- <canvas id="gameCanvas"></canvas> -->
     </v-card-text>
   </v-card>
+</div>
 </template>
 
 <script>
