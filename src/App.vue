@@ -4,10 +4,10 @@
     <v-app-bar
       app
       absolute
-      color="#6A76AB"
       dark
       shrink-on-scroll
       prominent
+      height="120vm"
       src="https://picsum.photos/1920/1080?random"
       fade-img-on-scroll
       scroll-target="#scrolling-techniques-3"
@@ -19,8 +19,8 @@
       app
       absolute
       dark
-      src="https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"
-      width="15%"
+      color="#B1C5FF"
+      width="15vm"
       permanent
     >
     <v-list>
@@ -69,7 +69,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #2968e7;
 }
 
 nav {
