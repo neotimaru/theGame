@@ -24,8 +24,9 @@ export default {
   data: () =>({
     items: [
       ['mdi-email', 'home', '/'],
-      ['mdi-account-supervisor-circle', 'Game', '/TheGame'],
-      ['mdi-clock-start', 'Support', '/support']
+      ['mdi-account-supervisor-circle', 'ゲーム', '/TheGame'],
+      ['', '音楽', '/GuiterScale'],
+      ['mdi-clock-start', '問い合わせ', '/support']
     ]
   })
 }
