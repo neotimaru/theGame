@@ -2,7 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import TheGame from '../components/game/TheGame'
-import SupportPage from '../components/Support/SupportPage.vue'
+import SupportPage from '../components/Support/SupportPage'
+import GuiterScale from '../components/music/GuiterScale'
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,11 @@ const routes = [
     path: '/TheGame',
     name: 'ザ・ゲーム',
     component: TheGame
+  },
+  {
+    path: '/GuiterScale',
+    name: 'ギタースケール',
+    component: GuiterScale
   }
 ]
 
