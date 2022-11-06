@@ -5,7 +5,10 @@ export const DISTRIBUTENUM = { // カード配布枚数
  TRIO: 6 // 3人以上
 } 
 export const CARDTYPE = {
-  DEFAULT: 'default', // 結界カード
+  DEFAULT: {// 結界カード
+    ONE: 'default_1',  // 1
+    HANDRED: 'default_100' // 100
+  },
   PLAY: 'play' // 僚属カード
 }
 

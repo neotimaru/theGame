@@ -13,6 +13,20 @@
             {{ value }}
           </v-btn>
         </div>
+        <!-- <v-radio-group
+          v-model="selectedKey"
+          row
+        >
+          <v-radio
+            v-for="(value, key) in keyList"
+            :key="key"
+            :label="value"
+            :value="value"
+          ></v-radio>
+        </v-radio-group> -->
+      </v-row>
+      <v-row>
+        現在選択しているキーは{{ selectedKey }} です。
       </v-row>
     </v-card-text>
       <!-- <v-list>
@@ -44,7 +58,8 @@ export default{
   },
   data:() => {
     return {
-      keyList: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#','A', 'A#', 'B']
+      keyList: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#','A', 'A#', 'B'],
+      selectedKey: 'C'
     }
   },
   created () {
@@ -53,7 +68,7 @@ export default{
   },
   methods: {
     clickKey (key) {
-      alert('選択したkeyは「' + key + '」です。')
+      this.selectedKey = key
     }
   }
 }

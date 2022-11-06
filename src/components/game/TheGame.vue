@@ -17,7 +17,9 @@
       </v-row>
     </v-card-text>
     <v-card-text>
-      <GameCanvas></GameCanvas>
+      <GameCanvas
+        ref="gameCanvas"
+      ></GameCanvas>
       <!-- <canvas id="gameCanvas"></canvas> -->
     </v-card-text>
   </v-card>
@@ -28,7 +30,7 @@
 import GameCanvas from './GameCanvas'
 
 export default{
-  name: 'myCanvas',
+  name: 'theGame',
   components: {
     GameCanvas
   },
@@ -46,7 +48,7 @@ export default{
      * ターン終了ボタン押下
      */
     turnEnd () {
-      alert('ターン終了')
+      this.$refs.gameCanvas.turnEnd()
     }
   }
 }
