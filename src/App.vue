@@ -12,15 +12,13 @@
       fade-img-on-scroll
       scroll-target="#scrolling-techniques-3"
     >
-      ザ・ゲーム
     </v-app-bar>
 
     <v-navigation-drawer
       app
       absolute
-      dark
-      src="https://picsum.photos/1920/1080?random"
       width="15vm"
+      class="pa-0"
       permanent
     >
     <SideBar></SideBar>
@@ -30,9 +28,8 @@
       <router-view/>
     </v-main>
 
-    <v-footer>
-      footer
-    </v-footer>
+    <!-- <v-footer>
+    </v-footer> -->
   </v-app>
 </div>
 
