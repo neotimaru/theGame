@@ -321,15 +321,15 @@ export default{
             // 置かれているカードの数字を取得する
             const puttedNum = Number(this.puttedCardNum[barrierCardID].num)
             if (barrierCardID === '0' || barrierCardID === '1') {
-              // 置かれているカード < 置くカード であれば設置可能
-              if (puttedNum < playCardNum) {
+              // 置かれているカード < 置くカード もしくは 置かれているカード - 10 = 置くカード であれば設置可能
+              if (puttedNum < playCardNum || (puttedNum - 10) === playCardNum) {
                 ret.result = true
                 ret.defObj = defCardObj
                 this.puttedCardNum[barrierCardID].num = playCardNum.toString()
               }
             } else {
-              // 置かれているカード > 置くカード であれば設置可能
-              if (puttedNum > playCardNum) {
+              // 置かれているカード > 置くカード もしくは 置かれているカード + 10 = 置くカード であれば設置可能
+              if (puttedNum > playCardNum || (puttedNum + 10) === playCardNum) {
                 ret.result = true
                 ret.defObj = defCardObj
                 this.puttedCardNum[barrierCardID].num = playCardNum.toString()
