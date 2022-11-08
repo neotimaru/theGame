@@ -13,6 +13,8 @@
 import { fabric } from 'fabric'
 import { DISTRIBUTENUM, CARDTYPE, STROKEWIDTH } from '@/const/common'
 import backImg from '../../assets/desk.png'
+import barrierCard1 from '../../assets/barrierCard_1.png'
+import barrierCard100 from '../../assets/barrierCard_100.png'
 
 export default{
   name: 'gameGavas',
@@ -89,6 +91,24 @@ export default{
      *  結界カードを設定する
      */
     setBarrierCards () {
+      // 画像を読み込む
+      fabric.Image.fromURL(barrierCard1,(img) => {
+        var oImg = img.set({ id: 'img', left: 20, top: 0, selectable: false}).scale(0.065);
+        this.gameCanvas.add(oImg);
+      })
+      fabric.Image.fromURL(barrierCard1,(img) => {
+        var oImg = img.set({ id: 'img', left: 20, top: 150, selectable: false}).scale(0.065);
+        this.gameCanvas.add(oImg);
+      })
+      fabric.Image.fromURL(barrierCard100,(img) => {
+        var oImg = img.set({ id: 'img', left: 20, top: 300, selectable: false}).scale(0.065);
+        this.gameCanvas.add(oImg);
+      })
+      fabric.Image.fromURL(barrierCard100,(img) => {
+        var oImg = img.set({ id: 'img', left: 20, top: 450, selectable: false}).scale(0.065);
+        this.gameCanvas.add(oImg);
+      })
+
       // 結解カードの設置
       this.barrierCards.forEach(card => {
         const rectProperty = {
