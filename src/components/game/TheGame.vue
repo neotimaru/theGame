@@ -5,9 +5,6 @@
     <!-- ボタンエリア -->
     <v-card-text>
       <v-row justify="end">
-        <v-col>
-          残りカード枚数：{{ restCardNum }}
-        </v-col>
         <v-btn
          color="blue"
          @click="turnEnd"

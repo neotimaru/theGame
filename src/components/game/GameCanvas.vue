@@ -1,6 +1,11 @@
 <template>
   <div>
-    <canvas id="gameCanvas"></canvas>
+    <v-row justify="center">
+      残りカード枚数：{{ restCardList.length }}
+    </v-row>
+    <v-row>
+      <canvas id="gameCanvas"></canvas>
+    </v-row>
   </div>
 </template>
 
@@ -15,10 +20,16 @@ export default{
     return {
       gameCanvas: null,
       barrierCards: [ // 結界カード
-        {id: '0', num:'1', left: 0, top: 0, width: 100, height: 150},
-        {id: '1', num:'1', left: 0, top: 200, width: 100, height: 150},
-        {id: '2', num:'100', left: 0, top: 400, width: 100, height: 150},
-        {id: '3', num:'100', left: 0, top: 600, width: 100, height: 150},
+        {id: '0', num:'1', left: 20, top: 0, width: 70, height: 100},
+        {id: '1', num:'1', left: 20, top: 150, width: 70, height: 100},
+        {id: '2', num:'100', left: 20, top: 300, width: 70, height: 100},
+        {id: '3', num:'100', left: 20, top: 450, width: 70, height: 100},
+      ],
+      puttedCardNum: [ // 場に置かれているカード
+        {id: '0', num:'1'},
+        {id: '1', num:'1'},
+        {id: '2', num:'100'},
+        {id: '3', num:'100'},
       ],
       restCardList: [], // 残り僚属カードリスト
       tmpPos: {x: 0, y: 0},
@@ -44,8 +55,8 @@ export default{
     init(){
       this.gameCanvas = new fabric.Canvas('gameCanvas')
       this.gameCanvas.selection = true
-      this.gameCanvas.setWidth(window.outerWidth)
-      this.gameCanvas.setHeight(1000)
+      this.gameCanvas.setWidth(window.outerWidth - 200)
+      this.gameCanvas.setHeight(700)
       // this.gameCanvas.color = '#deb887'
 
       // 背景画像をセット
@@ -106,7 +117,7 @@ export default{
         const rect = new fabric.Rect(rectProperty)
 
         // カードのID
-        const cardId = card.num === '1' ? CARDTYPE.DEFAULT.ONE : CARDTYPE.DEFAULT.HANDRED
+        const cardId = CARDTYPE.DEFAULT + '_' + card.id
         // groupオブジェクトの作成
         const groupProperty = {id: cardId , selectable: false}
         const group = new fabric.Group([rect, text], groupProperty)
@@ -131,33 +142,16 @@ export default{
      * ターン終了ボタン押下
      */
     turnEnd () {
-      console.log('ターン終了ボタン押下時のカード一覧')
-      console.log(this.playCardsList)
       // 手札ーカードの枚数
       this.playCardsList.length
-      // 手札のカード枚数になるまでカードを補充する
-      // for(let i = 0; i <= (DISTRIBUTENUM.SOLO - this.playCardsList.length); i++) {
-      //   this.supplyHandCard()
-      // }
-      // 手札を補充
-      this.supplyHandCard()
-      console.log('手札補充後のカード一覧')
-      console.log(this.playCardsList)
+      // カードを２枚以上設置していなければ
+      if ((DISTRIBUTENUM.SOLO - 2) >= this.playCardsList.length) {
+        // 手札を補充
+        this.supplyHandCard()
+      } else {
+        alert('カードを２枚以上設置してください')
+      }
     },
-
-    /**
-     *  カードを補充する
-     */
-    // supplyCard () {
-    //   // 乱数を取得
-    //   const ranNum = this.getRandomNum()
-    //   // 手札に追加
-    //   this.playCardsList.push(ranNum)
-    //   // 描画
-
-    //   // イベントリスナーセット
-      
-    // },
 
     /**
      * 手札に僚属カードを配布する
@@ -170,20 +164,17 @@ export default{
         // idが定義済み
         if (obj.id !== undefined && obj.id !== null)  {
           if (obj.id.startsWith(CARDTYPE.PLAY)) {
-            // console.log(obj.id.split('_'))
-            // console.log(obj.left)
             playCardPosList.push(obj.left)
           }
         }
       })
-      console.log(playCardPosList)
       // 手札に僚属カードを配布
       for (let i = 0; i < DISTRIBUTENUM.SOLO; i++) {
         const rectProperty = {
-          left: 150 * (i + 1),
-          top: 800,
-          width: 100,
-          height: 150,
+          left: 100 * (i + 1),
+          top: 550,
+          width: 70,
+          height: 100,
           fill: '#0067C0',
           strokeWidth: STROKEWIDTH,
           skewX: 0,
@@ -191,18 +182,18 @@ export default{
           angle: 0,
         }
         const textProperty = {
-          left: 150 * (i + 1) + 50,
-          top: 800 + 50,
+          left: 100 * (i + 1) + 35,
+          top: 550 + 50,
           originX: 'center',
           originY: 'center',
           fontSize: 30,
         }
         // 僚属カードの番号を取得
-        const textNum = this.getRandomNum(2,this.restCardList.length)
+        const textNum = this.restCardList[this.getRandomNum(2,this.restCardList.length)]
         // rectオブジェクトの作成
         const rect = new fabric.Rect(rectProperty)
         // textオブジェクトの作成
-        const text = new fabric.Text(this.restCardList[textNum], textProperty)
+        const text = new fabric.Text(textNum, textProperty)
         // groupオブジェクトの作成
         const groupProperty = {id: CARDTYPE.PLAY + '_' + textNum}
         const group = new fabric.Group([rect, text], groupProperty)
@@ -214,8 +205,6 @@ export default{
           // contains関数が使えなかったので仕方なくforEachで代用
           playCardPosList.forEach(cardPos => {
             if (cardPos === group.left) {
-              // console.log('座標かぶってます')
-              // console.log(cardPos + ' : ' + group.left)
               // フラグを「重なっている」に変更
               overlapFlg = true
             }
@@ -230,7 +219,6 @@ export default{
             this._setGroupEvent(group, textNum)
             // 僚属カードリストから追加した番号を削除
             this.restCardList = this.restCardList.filter(cardNum => cardNum !== textNum.toString())
-            console.log('★残りカード枚数 : ' + this.restCardList.length)
           }
           // }
         } else {
@@ -262,21 +250,19 @@ export default{
         const chkResult = this._chkPutCard(opt.transform.target)
         // おかれていた場合
         if (chkResult.result) {
-          // 設置可能な数字かチェックする
-          // this._chkPuttableCard(chkResult.defObj, opt.transform.target)
           // 結界カードの横の座標を設定する
-          group.left = chkResult.defObj.left + 200
+          group.left = chkResult.defObj.left + 100
           group.top = chkResult.defObj.top
           // 選択不可にする
           group.selectable = false
+          // 一番上に表示する
+          group.bringToFront()
           // オブジェクトの選択状態を解除する
           this.gameCanvas.discardActiveObject()
           // 反映
           this.gameCanvas.renderAll()
           // 手札カードリストから削除
           this.playCardsList = this.playCardsList.filter(card => card !== num)
-          console.log('残りのカードチェック')
-          console.log(this.playCardsList)
         // おかれていない場合
         } else {
           // 元の位置に戻す
@@ -295,26 +281,33 @@ export default{
 
     /**
      * 僚属カードが結界カードにおかれたかチェック
-     * @param {object} obj
+     * @param {object} obj 僚属カードのオブジェクト
      * @return 
      */
     _chkPutCard (obj) {
       let ret = {result: false, defObj: null}
 
+      // 僚属カードの座標を取得
       const left = obj.left
       const top = obj.top
       const right = obj.left + obj.width - STROKEWIDTH
       const bottom = obj.top + obj.height - STROKEWIDTH
 
+      // 僚属カードの数字を取得
+      const playCardNum = Number(obj.id.split('_')[1])
+
       // キャンバス上の全オブジェクトを取得
       const allobjs = this.gameCanvas.getObjects()
-      const defCardObjs = allobjs.filter(obj => obj.id === CARDTYPE.DEFAULT.ONE || obj.id === CARDTYPE.DEFAULT.HANDRED)
+      // 結界カードを取得
+      const defCardObjs = allobjs.filter(obj => obj.id.startsWith(CARDTYPE.DEFAULT))
 
       defCardObjs.forEach(defCardObj => {
+        // 結界カードの座標を取得
         const dLeft = defCardObj.left
         const dTop = defCardObj.top
         const dRight = defCardObj.left + defCardObj.width - STROKEWIDTH
         const dBottom = defCardObj.top + defCardObj.height - STROKEWIDTH
+
         // 結界カードに設置されたかチェック
         // X軸が入っているかチェック
         if ((dLeft <= left && left <= dRight) ||
@@ -323,27 +316,30 @@ export default{
           if ((dTop <= top && top <= dBottom) ||
             (dTop <= bottom && bottom <= dBottom)) {
             // X軸Y軸が両方入っている場合、結界カードのオブジェクトを設定する
-            ret.result = true
-            ret.defObj = defCardObj
+            // 結界カードのIDを取得する
+            const barrierCardID = defCardObj.id.split('_')[1]
+            // 置かれているカードの数字を取得する
+            const puttedNum = Number(this.puttedCardNum[barrierCardID].num)
+            if (barrierCardID === '0' || barrierCardID === '1') {
+              // 置かれているカード < 置くカード であれば設置可能
+              if (puttedNum < playCardNum) {
+                ret.result = true
+                ret.defObj = defCardObj
+                this.puttedCardNum[barrierCardID].num = playCardNum.toString()
+              }
+            } else {
+              // 置かれているカード > 置くカード であれば設置可能
+              if (puttedNum > playCardNum) {
+                ret.result = true
+                ret.defObj = defCardObj
+                this.puttedCardNum[barrierCardID].num = playCardNum.toString()
+              }
+            }
           }
         }
       })
       return ret
-    },
-
-    /**
-     * 僚属カードが結界カードにおかれたかチェック
-     * @param {Object} defObj
-     * @param {Object} putObj 
-     */
-    _chkPuttableCard (defObj, putObj) {
-      console.log(defObj.id + ' : ' + putObj.id)
-      // // 結界カードの数字が「1」なら
-      // if (defObj.id === CARDTYPE.DEFAULT.ONE) {
-      //   // 結界カード < 僚属カード
-      // }
-    }
-  
+    }  
   }
 }
 </script>

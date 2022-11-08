@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card
-      height="1160"
+      height="1100"
     >
       <v-toolbar
         color="teal"
