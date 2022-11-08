@@ -5,9 +5,6 @@
     <!-- ボタンエリア -->
     <v-card-text>
       <v-row justify="end">
-        <v-col>
-          残りカード枚数：{{ restCards }}
-        </v-col>
         <v-btn
          color="blue"
          @click="turnEnd"
@@ -36,7 +33,7 @@ export default{
   },
   data:() => {
     return {
-      restCards: '' // 残りカード枚数
+      restCardNum: 0
     }
   },
   created () {
@@ -49,13 +46,13 @@ export default{
      */
     turnEnd () {
       this.$refs.gameCanvas.turnEnd()
-    }
+    },
   }
 }
 </script>
 
-<style>
+<!-- <style>
 .canvas-container { /* ★2 */
   border: 1px solid grey;
 }
-</style>
+</style> -->

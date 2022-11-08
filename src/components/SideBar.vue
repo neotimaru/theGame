@@ -1,20 +1,38 @@
 <template>
   <div>
-    <v-list>
-      <v-list-item
-        v-for="([icon, text, link], i) in items"
-        :key="i"
-        link
+    <v-card
+      height="1100"
+    >
+      <v-toolbar
+        color="teal"
+        dark
       >
-        <v-list-item-icon>
-          <v-icon>{{ icon }}</v-icon>
-        </v-list-item-icon>
+        <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      
+        <v-toolbar-title>メニュー</v-toolbar-title>
 
-        <v-list-item-content>
-          <v-list-item-title><router-link :to=link>{{ text }}</router-link></v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
+        <v-spacer></v-spacer>
+
+        <v-btn icon>
+          <v-icon>mdi-dots-vertical</v-icon>
+        </v-btn>
+      </v-toolbar>
+      <v-list>
+        <v-list-item
+          v-for="([icon, text, link], i) in items"
+          :key="i"
+          link
+        >
+          <v-list-item-icon>
+            <v-icon>{{ icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title><router-link :to=link>{{ text }}</router-link></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-card>
   </div>
 </template>
 
